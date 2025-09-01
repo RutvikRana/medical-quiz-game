@@ -3,27 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🧠 Guess the Disease</title>
+  <meta name="description" content="Medical diagnosis game: Watch YouTube videos of diseases and test your knowledge with AI-generated quizzes">
+  <title>🧠 MedDiagnose - AI Medical Quiz Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>🧠 Guess the Disease</h1>
-    <p>Watch the video and answer the AI-generated question!</p>
+    <header>
+      <h1>🧠 MedDiagnose</h1>
+      <p>Diagnose diseases from real clinical videos</p>
+    </header>
 
-    <!-- YouTube Video -->
-    <div id="youtube-container"></div>
+    <main>
+      <!-- Video Player with Overlay -->
+      <div id="youtube-container">
+        <div id="play-overlay" class="overlay">
+          <div class="overlay-content">
+            <h2>Ready for Diagnosis?</h2>
+            <p>Watch the full video before answering</p>
+            <button id="play-btn">Play Video ▶️</button>
+            <p class="warning"><small>⚠️ No spoilers - video has no title or controls</small></p>
+          </div>
+        </div>
+        <div id="video-frame" class="video-frame"></div>
+      </div>
 
-    <!-- MCQ Question -->
-    <div id="quiz" class="hidden">
-      <h2 id="question"></h2>
-      <div id="options"></div>
-      <button id="check-btn">Check Answer</button>
-      <p id="result"></p>
-    </div>
+      <!-- Quiz Section -->
+      <div id="quiz" class="hidden">
+        <h2>AI-Generated Question</h2>
+        <p class="instructions">Based on the video you just watched:</p>
+        <div id="question" class="question"></div>
+        <div id="options" class="options"></div>
+        <button id="check-btn">Check Answer</button>
+        <p id="result" class="result"></p>
+      </div>
 
-    <!-- Next Button -->
-    <button id="next-btn" class="hidden">Next Case ➡️</button>
+      <!-- Navigation -->
+      <div class="controls">
+        <button id="next-btn" class="hidden primary">Next Case ➡️</button>
+        <button id="explain-btn" class="hidden secondary">Ask AI for Explanation</button>
+      </div>
+    </main>
+
+    <footer>
+      <p>Created with ❤️ for medical education | <a href="https://github.com/RutvikRana/medical-quiz-game">Contribute on GitHub</a></p>
+      <p class="disclaimer"><small>Disclaimer: For educational purposes only. Not for actual diagnosis.</small></p>
+    </footer>
   </div>
 
   <script src="script.js"></script>
