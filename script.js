@@ -62,51 +62,69 @@ function playVideo() {
   playOverlay.style.display = "none";
   videoFrame.style.display = "block";
   
-  // Set up video with your parameters + unpausable overlay
+  // First, show the video WITHOUT the overlay
   videoFrame.innerHTML = `
     <div class="video-container">
       <iframe
         id="medical-video"
-        src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1&enablejsapi=1"
-        title="Medical Diagnosis Video - No Spoilers"
+        src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1"
+        title="Medical Diagnosis Video"
         frameborder="0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+        allow="clipboard-read; clipboard-write"
         allowfullscreen>
       </iframe>
-      <!-- This invisible overlay blocks ALL interaction with the player -->
-      <div class="video-overlay"></div>
     </div>
   `;
   
-  // Apply styling fixes immediately
-  const style = document.createElement('style');
-  style.textContent = `
-    .video-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
+  // THEN add the overlay AFTER video loads (critical timing fix)
+  setTimeout(() => {
+    const container = document.querySelector('.video-container');
+    if (container && !document.querySelector('.video-overlay')) {
+      const overlay = document.createElement('div');
+      overlay.className = 'video-overlay';
+      overlay.setAttribute('aria-hidden', 'false'); // Fix accessibility issue
+      container.appendChild(overlay);
+      
+      // Apply styling fixes
+      const style = document.createElement('style');
+      style.textContent = `
+        .video-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        
+        .video-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 10;
+          pointer-events: auto;
+          background: transparent;
+          cursor: default;
+        }
+        
+        /* Critical: Push YouTube controls off-screen BUT keep video visible */
+        #medical-video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: calc(100% + 40px);
+          transform: translateY(-20px);
+        }
+      `;
+      document.head.appendChild(style);
     }
     
-    .video-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-      pointer-events: auto;
-      background: transparent;
-      cursor: default;
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Generate quiz after video loads
-  setTimeout(() => {
+    // Generate quiz after video loads
     generateMCQ(currentVideo.answer);
-  }, 2500);
+  }, 500); // Wait for YouTube player to initialize
 }
-
 async function generateMCQ(disease) {
   quizSection.classList.remove("hidden");
   resultEl.innerHTML = '<div class="loading">🧠 AI is generating your question...</div>';
