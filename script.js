@@ -62,42 +62,25 @@ function playVideo() {
   playOverlay.style.display = "none";
   videoFrame.style.display = "block";
   
+  // USE STANDARD YOUTUBE (NOT NOCOOKIE) - but hide controls via CSS
   videoFrame.innerHTML = `
-    <div class="video-frame">
-      <div class="video-container">
-        <iframe
-          id="medical-video"
-          src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1&enablejsapi=1"
-          title="Medical Diagnosis Video"
-          frameborder="0"
-          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-        <div class="video-overlay"></div>
-      </div>
+    <div class="video-wrapper">
+      <iframe
+        src="https://www.youtube.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&autoplay=1&enablejsapi=1"
+        title="Medical Diagnosis Video"
+        frameborder="0"
+        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <!-- This DIV hides the YouTube controls -->
+      <div class="control-mask"></div>
     </div>
   `;
   
-  // Critical: Add the overlay immediately to prevent pausing
+  // Generate quiz after video loads
   setTimeout(() => {
-    const videoOverlay = document.querySelector('.video-overlay');
-    if (videoOverlay) {
-      videoOverlay.style.display = 'block';
-      videoOverlay.style.cursor = 'default';
-    }
-    
-    // Generate quiz after video starts
     generateMCQ(currentVideo.answer);
-  }, 100);
-  
-  // Mobile touch prevention
-  setTimeout(() => {
-    const iframe = document.getElementById('medical-video');
-    if (iframe) {
-      iframe.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-      iframe.style.touchAction = 'none';
-    }
-  }, 500);
+  }, 2500);
 }
 
 async function generateMCQ(disease) {
