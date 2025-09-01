@@ -10,14 +10,28 @@ export default async function handler(req, res) {
   }
 
   const prompt = `
-    Generate a multiple choice question about ${disease}.
-    Include 4 options (A, B, C, D). Mark the correct answer with an asterisk (*).
-    Example:
-    What is a key symptom of Parkinson's Disease?
-    A) Fever
-    B) Tremor*
-    C) Rash
-    D) Headache
+    You are a medical educator creating quiz questions. 
+    Generate ONE multiple choice question about ${disease}.
+    
+    RULES:
+    1. Question must be based on CLINICAL PRESENTATION (symptoms, signs)
+    2. Include 4 options (A, B, C, D)
+    3. Mark correct answer with asterisk (*) AFTER the option
+    4. NO explanations or extra text
+    5. Format EXACTLY as:
+    
+    [Question text]
+    A) Option text*
+    B) Option text
+    C) Option text
+    D) Option text
+    
+    Example for Parkinson's:
+    What is a cardinal motor symptom of Parkinson's Disease?
+    A) Intention tremor
+    B) Resting tremor*
+    C) Muscle rigidity during movement
+    D) Hyperreflexia
   `;
 
   try {
@@ -34,15 +48,27 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       const err = await response.json();
-      throw new Error(`Gemini: ${err.error.message}`);
+      throw new Error(`Gemini API error: ${err.error.message}`);
     }
 
     const data = await response.json();
-    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Failed to generate question.';
+    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    
+    // Basic validation
+    if (!aiText.includes('*')) {
+      throw new Error('Invalid response format');
+    }
 
-    res.status(200).json({ mcq: aiText });
+    res.status(200).json({ 
+      mcq: aiText,
+      source: 'Gemini 1.5 Flash'
+    });
+    
   } catch (error) {
     console.error('AI Error:', error);
-    res.status(500).json({ error: 'Failed to generate MCQ' });
+    res.status(500).json({ 
+      error: 'Failed to generate medical question',
+      details: error.message 
+    });
   }
 }
