@@ -64,13 +64,15 @@ function playVideo() {
   
   // Load YouTube with privacy settings
 videoFrame.innerHTML = `
-  <iframe
-    src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&modestbranding=0&controls=0&iv_load_policy=3&autoplay=1&loop=1&playlist=${currentVideo.id}"
-    title="Medical Diagnosis Video - No Spoilers"
-    frameborder="0"
-    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
+  <div class="video-frame">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1&enablejsapi=1"
+      title="Medical Diagnosis Video"
+      frameborder="0"
+      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
 `;
   
   // Generate quiz after video loads
