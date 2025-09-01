@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧠 Guess the Disease</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Guess the Disease</h1>
+    <p>Watch the video and answer the AI-generated question!</p>
+
+    <!-- YouTube Video -->
+    <div id="youtube-container"></div>
+
+    <!-- MCQ Question -->
+    <div id="quiz" class="hidden">
+      <h2 id="question"></h2>
+      <div id="options"></div>
+      <button id="check-btn">Check Answer</button>
+      <p id="result"></p>
+    </div>
+
+    <!-- Next Button -->
+    <button id="next-btn" class="hidden">Next Case ➡️</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
