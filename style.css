@@ -332,13 +332,3 @@ footer a:hover {
   background: transparent;
   cursor: default;
 }
-
-/* Hide YouTube's bottom bar completely */
-#medical-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% + 60px);
-  transform: translateY(-30px);
-}
