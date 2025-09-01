@@ -65,7 +65,7 @@ function playVideo() {
   // Load YouTube with privacy settings
   videoFrame.innerHTML = `
     <iframe
-      src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=1"
+      src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=0&modestbranding=0&iv_load_policy=3&autoplay=1"
       title="Medical Diagnosis Video - No Spoilers"
       frameborder="0"
       allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
