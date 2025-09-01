@@ -62,68 +62,61 @@ function playVideo() {
   playOverlay.style.display = "none";
   videoFrame.style.display = "block";
   
-  // First, show the video WITHOUT the overlay
+  // CLEAN SETUP - no overlays during initialization
   videoFrame.innerHTML = `
-    <div class="video-container">
-      <iframe
-        id="medical-video"
-        src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1"
-        title="Medical Diagnosis Video"
-        frameborder="0"
-        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-        allow="clipboard-read; clipboard-write"
-        allowfullscreen>
-      </iframe>
+    <div class="video-player">
+      <div class="video-wrapper">
+        <iframe
+          id="medical-video"
+          src="https://www.youtube.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1"
+          title="Medical Diagnosis Video"
+          frameborder="0"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
     </div>
   `;
   
-  // THEN add the overlay AFTER video loads (critical timing fix)
+  // Add CSS AFTER iframe loads (critical timing)
   setTimeout(() => {
-    const container = document.querySelector('.video-container');
-    if (container && !document.querySelector('.video-overlay')) {
-      const overlay = document.createElement('div');
-      overlay.className = 'video-overlay';
-      overlay.setAttribute('aria-hidden', 'false'); // Fix accessibility issue
-      container.appendChild(overlay);
+    // Only add control-hiding CSS
+    const style = document.createElement('style');
+    style.id = 'video-controls-fix';
+    style.textContent = `
+      .video-player {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+        overflow: hidden;
+      }
       
-      // Apply styling fixes
-      const style = document.createElement('style');
-      style.textContent = `
-        .video-container {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-        }
-        
-        .video-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 10;
-          pointer-events: auto;
-          background: transparent;
-          cursor: default;
-        }
-        
-        /* Critical: Push YouTube controls off-screen BUT keep video visible */
-        #medical-video {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: calc(100% + 40px);
-          transform: translateY(-20px);
-        }
-      `;
-      document.head.appendChild(style);
-    }
+      .video-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+      /* THIS IS THE KEY FIX - hides controls without blocking initialization */
+      #medical-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% + 45px);
+        transform: translateY(-22.5px);
+      }
+    `;
+    document.head.appendChild(style);
     
-    // Generate quiz after video loads
-    generateMCQ(currentVideo.answer);
-  }, 500); // Wait for YouTube player to initialize
+    // Add unpausable behavior AFTER video loads
+    setTimeout(() => {
+      generateMCQ(currentVideo.answer);
+    }, 1000);
+  }, 100); // Very short delay for proper initialization
 }
 async function generateMCQ(disease) {
   quizSection.classList.remove("hidden");
