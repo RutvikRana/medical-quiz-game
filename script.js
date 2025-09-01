@@ -86,7 +86,7 @@ async function generateMCQ(disease) {
   checkBtn.disabled = true;
 
   try {
-    const response = await fetch("https://your-vercel-api.vercel.app/api/mcq", {
+    const response = await fetch("https://medical-quiz-game.vercel.app/api/mcq", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ disease }),
@@ -197,8 +197,8 @@ function checkAnswer() {
 function getExplanation() {
   resultEl.innerHTML = '<div class="loading">💡 AI is explaining the diagnosis...</div>';
   explainBtn.disabled = true;
-  
-  fetch("https://your-vercel-api.vercel.app/api/explain", {
+
+  fetch("https://medical-quiz-game.vercel.app/api/explain", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ 
