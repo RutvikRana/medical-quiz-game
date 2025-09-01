@@ -66,7 +66,7 @@ function playVideo() {
     <div class="video-container">
       <iframe
         id="medical-video"
-        src="https://www.youtube.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1&playsinline=1"
+        src="https://www.youtube.com/embed/${currentVideo.id}?controls=0&rel=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1&playsinline=1"
         frameborder="0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
