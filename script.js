@@ -62,19 +62,15 @@ function playVideo() {
   playOverlay.style.display = "none";
   videoFrame.style.display = "block";
   
-  // USE STANDARD YOUTUBE (NOT NOCOOKIE) - but hide controls via CSS
+  // Load YouTube with privacy settings
   videoFrame.innerHTML = `
-    <div class="video-wrapper">
-      <iframe
-        src="https://www.youtube.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&autoplay=1&enablejsapi=1"
-        title="Medical Diagnosis Video"
-        frameborder="0"
-        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-      <!-- This DIV hides the YouTube controls -->
-      <div class="control-mask"></div>
-    </div>
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=1"
+      title="Medical Diagnosis Video - No Spoilers"
+      frameborder="0"
+      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
   `;
   
   // Generate quiz after video loads
