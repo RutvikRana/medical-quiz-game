@@ -98,21 +98,6 @@ function playVideo() {
       background: transparent;
       cursor: default;
     }
-    
-    /* Critical: Push YouTube controls completely off-screen */
-    #medical-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: calc(100% + 60px);
-      transform: translateY(-30px);
-    }
-    
-    /* Mobile touch prevention */
-    #medical-video {
-      touch-action: manipulation;
-    }
   `;
   document.head.appendChild(style);
 
