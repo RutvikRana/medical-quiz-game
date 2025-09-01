@@ -1,92 +1,284 @@
+:root {
+  --primary: #2c6e91;
+  --secondary: #4a9ea8;
+  --accent: #e63946;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --success: #28a745;
+  --warning: #ffc107;
+}
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f4f7fa;
-  color: #333;
-  margin: 0;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+  color: var(--dark);
+  line-height: 1.6;
+  min-height: 100vh;
   padding: 20px;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
   text-align: center;
+  margin: 20px 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-h1 {
-  color: #2c3e50;
+header h1 {
+  color: var(--primary);
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
+main {
+  flex: 1;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 25px;
+  margin: 20px 0;
+}
+
+/* YouTube Player Styles */
 #youtube-container {
   position: relative;
   width: 100%;
   height: 0;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
   margin: 20px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
-#youtube-container iframe {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+  transition: opacity 0.3s;
 }
 
-iframe {
+.overlay:hover {
+  opacity: 0.95;
+}
+
+.overlay-content {
+  text-align: center;
+  color: white;
+  padding: 20px;
+  max-width: 80%;
+}
+
+.overlay h2 {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.overlay p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+.warning {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 20px;
+}
+
+.video-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-#quiz {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin-top: 20px;
-  text-align: left;
-}
-
-#options {
-  margin: 15px 0;
-}
-
-button {
-  background: #3498db;
-  color: white;
+.video-frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border: none;
-  padding: 12px 24px;
-  font-size: 16px;
+  border-radius: 12px;
+}
+
+/* Quiz Styles */
+#quiz {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 25px;
+  border: 1px solid #e2e8f0;
+}
+
+.instructions {
+  color: #4a5568;
+  font-style: italic;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.question {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #2d3748;
+  line-height: 1.4;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.options div {
+  padding: 14px;
+  background: white;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
+  transition: all 0.2s;
+}
+
+.options div:hover {
+  background: #ebf4ff;
+  border-color: var(--secondary);
+}
+
+.options input {
+  margin-right: 10px;
+}
+
+.result {
+  min-height: 40px;
+  padding: 10px 0;
+  font-weight: 500;
+}
+
+/* Buttons */
+button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 button:hover {
-  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-#check-btn {
-  background: #27ae60;
+.primary {
+  background: var(--primary);
+  color: white;
+  width: 100%;
 }
 
-#check-btn:hover {
-  background: #219653;
+.primary:hover {
+  background: #1d5c7a;
+}
+
+.secondary {
+  background: white;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  margin-top: 10px;
+  width: 100%;
+}
+
+.secondary:hover {
+  background: #f0f7ff;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .hidden {
   display: none !important;
 }
 
-#result {
-  margin-top: 15px;
-  font-weight: bold;
-  min-height: 24px;
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  color: #6c757d;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.disclaimer {
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+  
+  main {
+    padding: 20px 15px;
+  }
+  
+  header h1 {
+    font-size: 2rem;
+  }
+  
+  .overlay h2 {
+    font-size: 1.8rem;
+  }
 }
