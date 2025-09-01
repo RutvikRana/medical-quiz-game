@@ -62,62 +62,44 @@ function playVideo() {
   playOverlay.style.display = "none";
   videoFrame.style.display = "block";
   
-  // CLEAN SETUP - no overlays during initialization
   videoFrame.innerHTML = `
-    <div class="video-player">
-      <div class="video-wrapper">
+    <div class="video-frame">
+      <div class="video-container">
         <iframe
           id="medical-video"
-          src="https://www.youtube.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1"
+          src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=0&modestbranding=1&iv_load_policy=3&loop=1&playlist=${currentVideo.id}&autoplay=1&enablejsapi=1"
           title="Medical Diagnosis Video"
           frameborder="0"
           allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
         </iframe>
+        <div class="video-overlay"></div>
       </div>
     </div>
   `;
   
-  // Add CSS AFTER iframe loads (critical timing)
+  // Critical: Add the overlay immediately to prevent pausing
   setTimeout(() => {
-    // Only add control-hiding CSS
-    const style = document.createElement('style');
-    style.id = 'video-controls-fix';
-    style.textContent = `
-      .video-player {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 56.25%;
-        overflow: hidden;
-      }
-      
-      .video-wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      
-      /* THIS IS THE KEY FIX - hides controls without blocking initialization */
-      #medical-video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: calc(100% + 45px);
-        transform: translateY(-22.5px);
-      }
-    `;
-    document.head.appendChild(style);
+    const videoOverlay = document.querySelector('.video-overlay');
+    if (videoOverlay) {
+      videoOverlay.style.display = 'block';
+      videoOverlay.style.cursor = 'default';
+    }
     
-    // Add unpausable behavior AFTER video loads
-    setTimeout(() => {
-      generateMCQ(currentVideo.answer);
-    }, 1000);
-  }, 100); // Very short delay for proper initialization
+    // Generate quiz after video starts
+    generateMCQ(currentVideo.answer);
+  }, 100);
+  
+  // Mobile touch prevention
+  setTimeout(() => {
+    const iframe = document.getElementById('medical-video');
+    if (iframe) {
+      iframe.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+      iframe.style.touchAction = 'none';
+    }
+  }, 500);
 }
+
 async function generateMCQ(disease) {
   quizSection.classList.remove("hidden");
   resultEl.innerHTML = '<div class="loading">🧠 AI is generating your question...</div>';
