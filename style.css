@@ -313,5 +313,5 @@ footer a:hover {
   left: 0;
   width: 100%;
   height: calc(100% + 80px); /* Push controls off-screen */
-  transform: translateY(-40px);
+  transform: translateY(-45px);
 }
