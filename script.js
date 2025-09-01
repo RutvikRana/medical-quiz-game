@@ -62,21 +62,25 @@ function playVideo() {
   playOverlay.style.display = "none";
   videoFrame.style.display = "block";
   
-  // Load YouTube with privacy settings
+  // USE STANDARD YOUTUBE (NOT NOCOOKIE) - but hide controls via CSS
   videoFrame.innerHTML = `
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=1"
-      title="Medical Diagnosis Video - No Spoilers"
-      frameborder="0"
-      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+    <div class="video-wrapper">
+      <iframe
+        src="https://www.youtube.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&autoplay=1&enablejsapi=1"
+        title="Medical Diagnosis Video"
+        frameborder="0"
+        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <!-- This DIV hides the YouTube controls -->
+      <div class="control-mask"></div>
+    </div>
   `;
   
-  // Generate quiz after video starts
+  // Generate quiz after video loads
   setTimeout(() => {
     generateMCQ(currentVideo.answer);
-  }, 2000);
+  }, 2500);
 }
 
 async function generateMCQ(disease) {
