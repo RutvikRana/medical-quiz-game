@@ -282,3 +282,36 @@ footer a:hover {
     font-size: 1.8rem;
   }
 }
+
+/* Fixes YouTube embed issues while hiding controls */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.control-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none; /* Allows video to play but hides controls */
+  background: transparent;
+}
+
+/* Special fix for mobile touch controls */
+.video-frame iframe {
+  touch-action: manipulation;
+}
+
+/* Hide YouTube's bottom bar (timeline) */
+.video-frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 40px); /* Push controls off-screen */
+  transform: translateY(-20px);
+}
