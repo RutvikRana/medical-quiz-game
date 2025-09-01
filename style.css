@@ -340,13 +340,3 @@ footer a:hover {
   background: transparent;
   cursor: default;
 }
-
-/* Push YouTube's control bar completely off-screen */
-#medical-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% + 60px);
-  transform: translateY(-30px);
-}
