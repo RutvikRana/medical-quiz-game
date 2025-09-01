@@ -63,15 +63,15 @@ function playVideo() {
   videoFrame.style.display = "block";
   
   // Load YouTube with privacy settings
-  videoFrame.innerHTML = `
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&controls=0&modestbranding=0&iv_load_policy=3&autoplay=1"
-      title="Medical Diagnosis Video - No Spoilers"
-      frameborder="0"
-      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  `;
+videoFrame.innerHTML = `
+  <iframe
+    src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&autoplay=1&loop=1&playlist=${currentVideo.id}"
+    title="Medical Diagnosis Video - No Spoilers"
+    frameborder="0"
+    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+`;
   
   // Generate quiz after video loads
   setTimeout(() => {
