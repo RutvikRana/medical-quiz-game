@@ -1,0 +1,9 @@
+{
+  "port": 8083,
+  "cors": true,
+  "headers": {
+    "Cache-Control": "no-store, no-cache, must-revalidate",
+    "Pragma": "no-cache",
+    "Expires": "0"
+  }
+}

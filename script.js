@@ -62,25 +62,33 @@ function playVideo() {
   playOverlay.style.display = "none";
   videoFrame.style.display = "block";
   
-  // USE STANDARD YOUTUBE (NOT NOCOOKIE) - but hide controls via CSS
   videoFrame.innerHTML = `
-    <div class="video-wrapper">
+    <div class="video-container">
       <iframe
-        src="https://www.youtube.com/embed/${currentVideo.id}?rel=0&modestbranding=1&iv_load_policy=3&autoplay=1&enablejsapi=1"
+        id="medical-video"
+        src="https://www.youtube-nocookie.com/embed/${currentVideo.id}?loop=1&playlist=${currentVideo.id}&autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&fs=0&disablekb=1&showinfo=0"
         title="Medical Diagnosis Video"
         frameborder="0"
-        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-      <!-- This DIV hides the YouTube controls -->
-      <div class="control-mask"></div>
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+      ></iframe>
+      <div class="video-overlay"></div>
     </div>
   `;
   
-  // Generate quiz after video loads
+  // Generate quiz after video starts
   setTimeout(() => {
     generateMCQ(currentVideo.answer);
-  }, 2500);
+  }, 100);
+  
+  // Mobile touch prevention
+  setTimeout(() => {
+    const iframe = document.getElementById('medical-video');
+    if (iframe) {
+      iframe.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+      iframe.style.touchAction = 'none';
+    }
+  }, 500);
 }
 
 async function generateMCQ(disease) {
@@ -90,7 +98,7 @@ async function generateMCQ(disease) {
   checkBtn.disabled = true;
 
   try {
-    const response = await fetch("https://medical-quiz-game.vercel.app/api/mcq", {
+    const response = await fetch("/api/mcq", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ disease }),
@@ -202,7 +210,7 @@ function getExplanation() {
   resultEl.innerHTML = '<div class="loading">💡 AI is explaining the diagnosis...</div>';
   explainBtn.disabled = true;
 
-  fetch("https://medical-quiz-game.vercel.app/api/explain", {
+  fetch("/api/explain", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ 
